@@ -317,7 +317,7 @@ Set the controller to respond to JSON
 def index
   respond_to do |format|
     format.html
-    format.json { render json: UserDatatable.new(view_context) }
+    format.json { render json: UserDatatable.new(params) }
   end
 end
 ```
@@ -464,13 +464,6 @@ class UserDecorator < ApplicationDecorator
 end
 ```
 
-**Note :** On the long term it's much more cleaner than using `def_delegator` since decorators are reusable everywhere in your application :)
-
-So we **strongly recommand you to use Draper decorators.** It will help keeping your DataTables class small and clean and keep focused on what they should do (mostly) : filtering records ;)
-
-**Note 2 :** The `def_delegator` might disappear in a near future : [#288 [RFC] Remove dependency on view_context](https://github.com/jbox-web/ajax-datatables-rails/issues/288).
-You're invited to give your opinion :)
-
 ### Pass options to the datatable class
 
 An `AjaxDatatablesRails::Base` inherited class can accept an options hash at initialization. This provides room for flexibility when required.
@@ -482,7 +475,7 @@ Example:
 def index
   respond_to do |format|
     format.html
-    format.json { render json: UserDatatable.new(view_context, user: current_user, from: 1.month.ago) }
+    format.json { render json: UserDatatable.new(params, user: current_user, from: 1.month.ago) }
   end
 end
 
